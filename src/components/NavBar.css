@@ -1,0 +1,41 @@
+.navbar {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-item {
+  margin-right: 15px;
+}
+
+.navbar-item a {
+  text-decoration: none;
+  color: #333;
+}
+
+.language-select {
+  border: none;
+  margin-left: 20px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 1em;
+  color: #333;
+  background: #fff;
+}
+
+.download-icon {
+  margin-left: 20px;
+  color: #333;
+}
+
+.download-icon svg {
+  vertical-align: middle;
+}

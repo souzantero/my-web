@@ -1,55 +1,84 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
+import { NavBar } from './components/NavBar';
+
+const data = {
+  name: 'Felipe Antero',
+  role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
+  location: 'Curitiba, Paraná, Brasil',
+  contact: {
+    email: 'souzantero@gmail.com',
+    linkedin: 'www.linkedin.com/in/souzantero',
+    github: 'github.com/souzantero',
+  },
+  summary: 'Olá, meu nome é Felipe Antero...',
+  experience: [
+    {
+      company: 'ammo.varejo',
+      role: 'Full Stack Engineer',
+      duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
+      description: 'Engenheiro na equipe de Backoffice da ammo Varejo...',
+    },
+    // Outras experiências podem ser adicionadas aqui
+  ],
+  education: [
+    {
+      institution: 'FIAP',
+      degree:
+        'Pós-graduação Lato Sensu - Especialização, Arquitetura de Software',
+      duration: '(2023 - 2024)',
+    },
+    // Outras formações podem ser adicionadas aqui
+  ],
+};
 
 function App() {
+  const [isNightMode, setIsNightMode] = useState(false);
+
+  const toggleNightMode = () => {
+    setIsNightMode(!isNightMode);
+  };
+
   return (
     <>
-      <div className="navbar">
-        <h1 className="navbar-logo"></h1>
-        <select className="language-select">
-          <option value="pt">Português</option>
-          <option value="en">English</option>
-        </select>
-      </div>
+      <NavBar />
       <div className="container">
         <div className="header">
-          <h1>Felipe Antero</h1>
-          <p>Software Engineer | Node.js | React | TDD | Clean Architecture</p>
-          <p>Curitiba, Paraná, Brasil</p>
+          <h1>{data.name}</h1>
+          <p>{data.role}</p>
+          <p>{data.location}</p>
         </div>
         <div className="section">
           <h2>Contato</h2>
-          <p>Email: souzantero@gmail.com</p>
-          <p>LinkedIn: www.linkedin.com/in/souzantero</p>
-          <p>GitHub: github.com/souzantero</p>
+          <p>Email: {data.contact.email}</p>
+          <p>LinkedIn: {data.contact.linkedin}</p>
+          <p>GitHub: {data.contact.github}</p>
         </div>
         <div className="section">
           <h2>Resumo</h2>
-          <p>Olá, meu nome é Felipe Antero...</p> {/* Add more detail */}
+          <p>{data.summary}</p>
         </div>
         <div className="section">
           <h2>Experiência</h2>
-          <div>
-            <h3>ammo.varejo</h3>
-            <h4>Full Stack Engineer</h4>
-            <p>dezembro de 2021 - Present (1 ano 6 meses)</p>
-            <p>Engenheiro na equipe de Backoffice da ammo Varejo...</p>{' '}
-            {/* Add more detail */}
-          </div>
-          {/* Add more experiences */}
+          {data.experience.map((experience, index) => (
+            <div key={index}>
+              <h3>{experience.company}</h3>
+              <h4>{experience.role}</h4>
+              <p>{experience.duration}</p>
+              <p>{experience.description}</p>
+            </div>
+          ))}
         </div>
         <div className="section">
           <h2>Formação acadêmica</h2>
-          <div>
-            <h3>FIAP</h3>
-            <h4>
-              Pós-graduação Lato Sensu - Especialização, Arquitetura de Software
-            </h4>
-            <p>(2023 - 2024)</p>
-          </div>
-          {/* Add more education */}
+          {data.education.map((education, index) => (
+            <div key={index}>
+              <h3>{education.institution}</h3>
+              <h4>{education.degree}</h4>
+              <p>{education.duration}</p>
+            </div>
+          ))}
         </div>
-        {/* Add more sections as necessary */}
       </div>
     </>
   );
