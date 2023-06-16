@@ -1,7 +1,10 @@
 import React from 'react';
 import './NavBar.css';
+import { useApp } from '../App';
 
 export function NavBar() {
+  const { language, onChangeLanguage } = useApp();
+
   return (
     <nav className="navbar">
       <ul className="navbar-list">
@@ -10,7 +13,11 @@ export function NavBar() {
         </li>
       </ul>
       <div>
-        <select className="language-select">
+        <select
+          className="language-select"
+          value={language}
+          onChange={onChangeLanguage}
+        >
           <option value="pt">Português</option>
           <option value="en">English</option>
         </select>
@@ -34,4 +41,7 @@ export function NavBar() {
       </div>
     </nav>
   );
+}
+function useAppContext() {
+  throw new Error('Function not implemented.');
 }
