@@ -2,6 +2,14 @@ import './App.css';
 import React, { useMemo, useState } from 'react';
 import { NavBar } from './components/NavBar';
 
+export type Display = {
+  resume: string;
+  contact: string;
+  summary: string;
+  experience: string;
+  education: string;
+};
+
 export type Resume = {
   name: string;
   role: string;
@@ -25,80 +33,109 @@ export type Resume = {
   }[];
 };
 
-const data: { [language: string]: Resume } = {
+export type Data = {
+  display: Display;
+  resume: Resume;
+};
+
+const dictionary: {
+  [language: string]: Data;
+} = {
   pt: {
-    name: 'Felipe Antero',
-    role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
-    location: 'Curitiba, Paraná, Brasil',
-    contact: {
-      email: 'souzantero@gmail.com',
-      linkedin: 'www.linkedin.com/in/souzantero',
-      github: 'github.com/souzantero',
+    display: {
+      resume: 'Currículo',
+      contact: 'Contato',
+      summary: 'Resumo',
+      experience: 'Experiência',
+      education: 'Formação acadêmica',
     },
-    summary: 'Olá, meu nome é Felipe Antero...',
-    experience: [
-      {
-        company: 'ammo.varejo',
-        role: 'Full Stack Engineer',
-        duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
-        description: 'Engenheiro na equipe de Backoffice da ammo Varejo...',
+    resume: {
+      name: 'Felipe Antero',
+      role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
+      location: 'Curitiba, Paraná, Brasil',
+      contact: {
+        email: 'souzantero@gmail.com',
+        linkedin: 'www.linkedin.com/in/souzantero',
+        github: 'github.com/souzantero',
       },
-      // Outras experiências podem ser adicionadas aqui
-    ],
-    education: [
-      {
-        institution: 'FIAP',
-        degree:
-          'Pós-graduação Lato Sensu - Especialização, Arquitetura de Software',
-        duration: '(2023 - 2024)',
-      },
-      // Outras formações podem ser adicionadas aqui
-    ],
+      summary: 'Olá, meu nome é Felipe Antero...',
+      experience: [
+        {
+          company: 'ammo.varejo',
+          role: 'Full Stack Engineer',
+          duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
+          description: 'Engenheiro na equipe de Backoffice da ammo Varejo...',
+        },
+        // Outras experiências podem ser adicionadas aqui
+      ],
+      education: [
+        {
+          institution: 'FIAP',
+          degree:
+            'Pós-graduação Lato Sensu - Especialização, Arquitetura de Software',
+          duration: '(2023 - 2024)',
+        },
+        // Outras formações podem ser adicionadas aqui
+      ],
+    },
   },
   en: {
-    name: 'Felipe Antero',
-    role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
-    location: 'Curitiba, Paraná, Brasil',
-    contact: {
-      email: 'souzantero@gmail.com',
-      linkedin: 'www.linkedin.com/in/souzantero',
-      github: 'github.com/souzantero',
+    display: {
+      resume: 'Resume',
+      contact: 'Contact',
+      summary: 'Summary',
+      experience: 'Experience',
+      education: 'Education',
     },
-    summary: 'Hello, my name is Felipe Antero...',
-    experience: [
-      {
-        company: 'ammo.varejo',
-        role: 'Full Stack Engineer',
-        duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
-        description: 'Engineer in the Backoffice team at ammo Varejo...',
+    resume: {
+      name: 'Felipe Antero',
+      role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
+      location: 'Curitiba, Paraná, Brasil',
+      contact: {
+        email: 'souzantero@gmail.com',
+        linkedin: 'www.linkedin.com/in/souzantero',
+        github: 'github.com/souzantero',
       },
-    ],
-    education: [
-      {
-        institution: 'FIAP',
-        degree:
-          'Pós-graduação Lato Sensu - Especialization, Software Architecture',
-        duration: '(2023 - 2024)',
-      },
-    ],
+      summary: 'Hello, my name is Felipe Antero...',
+      experience: [
+        {
+          company: 'ammo.varejo',
+          role: 'Full Stack Engineer',
+          duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
+          description: 'Engineer in the Backoffice team at ammo Varejo...',
+        },
+      ],
+      education: [
+        {
+          institution: 'FIAP',
+          degree:
+            'Pós-graduação Lato Sensu - Especialization, Software Architecture',
+          duration: '(2023 - 2024)',
+        },
+      ],
+    },
   },
 };
 
-export type AppData = {
+export type AppConfig = {
+  data: Data;
   language: string;
   onChangeLanguage: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export const AppContext = React.createContext<AppData>({
+export const AppContext = React.createContext<AppConfig>({
+  data: dictionary.en,
   language: 'en',
-  onChangeLanguage: () => {},
+  onChangeLanguage: () => console.log('Not implemented'),
 });
 
 export const useApp = () => React.useContext(AppContext);
 
 function App() {
   const [language, setLanguage] = useState<string>('en');
-  const resume = useMemo(() => data[language], [language]);
+  const data = useMemo(() => dictionary[language], [language]);
+  const { display, resume } = data;
+
   const handleLanguageChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
@@ -107,7 +144,7 @@ function App() {
 
   return (
     <AppContext.Provider
-      value={{ language, onChangeLanguage: handleLanguageChange }}
+      value={{ data, language, onChangeLanguage: handleLanguageChange }}
     >
       <NavBar />
       <div className="container">
@@ -117,17 +154,17 @@ function App() {
           <p>{resume.location}</p>
         </div>
         <div className="section">
-          <h2>Contato</h2>
+          <h2>{display.contact}</h2>
           <p>Email: {resume.contact.email}</p>
           <p>LinkedIn: {resume.contact.linkedin}</p>
           <p>GitHub: {resume.contact.github}</p>
         </div>
         <div className="section">
-          <h2>Resumo</h2>
+          <h2>{display.summary}</h2>
           <p>{resume.summary}</p>
         </div>
         <div className="section">
-          <h2>Experiência</h2>
+          <h2>{display.experience}</h2>
           {resume.experience.map((experience, index) => (
             <div key={index}>
               <h3>{experience.company}</h3>
@@ -138,7 +175,7 @@ function App() {
           ))}
         </div>
         <div className="section">
-          <h2>Formação acadêmica</h2>
+          <h2>{display.education}</h2>
           {resume.education.map((education, index) => (
             <div key={index}>
               <h3>{education.institution}</h3>

@@ -3,13 +3,13 @@ import './NavBar.css';
 import { useApp } from '../App';
 
 export function NavBar() {
-  const { language, onChangeLanguage } = useApp();
+  const { data, language, onChangeLanguage } = useApp();
 
   return (
     <nav className="navbar">
       <ul className="navbar-list">
         <li className="navbar-item">
-          <a href="#resume">Curriculo</a>
+          <a href="#resume">{data.display.resume}</a>
         </li>
       </ul>
       <div>
@@ -41,7 +41,4 @@ export function NavBar() {
       </div>
     </nav>
   );
-}
-function useAppContext() {
-  throw new Error('Function not implemented.');
 }
