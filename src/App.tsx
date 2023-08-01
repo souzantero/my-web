@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useMemo, useState } from 'react';
+import Avatar from '../assets/avatar.jpg';
 import { NavBar } from './components/NavBar';
 
 export type Display = {
@@ -149,6 +150,7 @@ function App() {
       <NavBar />
       <div className="container">
         <div className="header">
+          <img src={Avatar} alt="Avatar" className="avatar" />
           <h1>{resume.name}</h1>
           <p>{resume.role}</p>
           <p>{resume.location}</p>

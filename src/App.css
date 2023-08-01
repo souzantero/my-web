@@ -22,3 +22,10 @@ p,
 li {
   color: #666;
 }
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
