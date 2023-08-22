@@ -25,7 +25,12 @@ export type Resume = {
     company: string;
     role: string;
     duration: string;
-    description: string;
+    description: {
+      situation: string;
+      task: string;
+      action: string;
+      result: string;
+    };
   }[];
   education: {
     institution: string;
@@ -42,44 +47,6 @@ export type Data = {
 const dictionary: {
   [language: string]: Data;
 } = {
-  pt: {
-    display: {
-      resume: 'Currículo',
-      contact: 'Contato',
-      summary: 'Resumo',
-      experience: 'Experiência',
-      education: 'Formação acadêmica',
-    },
-    resume: {
-      name: 'Felipe Antero',
-      role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
-      location: 'Curitiba, Paraná, Brasil',
-      contact: {
-        email: 'souzantero@gmail.com',
-        linkedin: 'www.linkedin.com/in/souzantero',
-        github: 'github.com/souzantero',
-      },
-      summary: 'Olá, meu nome é Felipe Antero...',
-      experience: [
-        {
-          company: 'ammo.varejo',
-          role: 'Full Stack Engineer',
-          duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
-          description: 'Engenheiro na equipe de Backoffice da ammo Varejo...',
-        },
-        // Outras experiências podem ser adicionadas aqui
-      ],
-      education: [
-        {
-          institution: 'FIAP',
-          degree:
-            'Pós-graduação Lato Sensu - Especialização, Arquitetura de Software',
-          duration: '(2023 - 2024)',
-        },
-        // Outras formações podem ser adicionadas aqui
-      ],
-    },
-  },
   en: {
     display: {
       resume: 'Resume',
@@ -90,28 +57,87 @@ const dictionary: {
     },
     resume: {
       name: 'Felipe Antero',
-      role: 'Software Engineer | Node.js | React | TDD | Clean Architecture',
-      location: 'Curitiba, Paraná, Brasil',
+      role: 'Software Engineer | Node.js | React | TDD | Architecture',
+      location: 'Curitiba, Paraná, Brazil',
       contact: {
         email: 'souzantero@gmail.com',
-        linkedin: 'www.linkedin.com/in/souzantero',
+        linkedin: 'linkedin.com/in/souzantero',
         github: 'github.com/souzantero',
       },
-      summary: 'Hello, my name is Felipe Antero...',
+      summary:
+        'Hello, my name is Felipe Antero. I am a software developer with over 10 years of experience. I started my career developing web applications using the C# language and the DotNet framework. In 2015, I had the opportunity to study at the Apple Developer Academy and learn about mobile application development, which shifted the focus of my career. I then started working as a mobile developer. After accepting an invitation to take on the role of Full-Stack Engineer at a gaming company, I developed skills and specialized in key practices and tools for Front-end and Back-end application development, such as NodeJS, NestJS, ReactJS, Next.js, TDD, Cloud Computing, and clean architecture. I am currently part of the Backoffice team at ammo Varejo, assisting, developing, maintaining, and problem-solving features for various internal departments of the organization.',
       experience: [
         {
           company: 'ammo.varejo',
-          role: 'Full Stack Engineer',
-          duration: 'dezembro de 2021 - Present (1 ano 6 meses)',
-          description: 'Engineer in the Backoffice team at ammo Varejo...',
+          role: 'Software Engineer',
+          duration: 'December 2021 - Present',
+          description: {
+            situation:
+              'Challenges in multiple internal departments such as Sales, Customer Service, Transportation, Retail Stores.',
+            task: 'Develop and maintain systems that integrate and optimize these departments.',
+            action:
+              'Developed APIs and Microservices using NodeJS, Typescript, and NestJS. Implemented serverless architecture and CI/CD pipelines.',
+            result: 'Improved operational efficiency and service quality.',
+          },
+        },
+        {
+          company: 'Opala Studios',
+          role: 'Software Engineer',
+          duration: 'June 2018 - December 2021 (3 years 7 months)',
+          description: {
+            situation:
+              "Need for robustness and scalability in managing the company's products.",
+            task: 'Lead the Back-end and Cloud Computing aspects.',
+            action:
+              'Developed APIs and Microservices, and deployed Docker environments and serverless architecture.',
+            result:
+              'Created a more efficient and scalable management platform.',
+          },
+        },
+        {
+          company: 'PlugApps',
+          role: 'Mobile Engineer',
+          duration: 'January 2016 - October 2017 (1 year 10 months)',
+          description: {
+            situation:
+              'Market demand for efficient Android mobile applications.',
+            task: 'Develop efficient Android applications and publish them on Google Play.',
+            action:
+              'Developed using Java and Kotlin. Conducted build and publish processes for the applications.',
+            result:
+              'Successfully launched various applications on Google Play.',
+          },
+        },
+        {
+          company: 'Tray Corp, Ewave, Pollysoft and BRQ',
+          role: 'Web Developer',
+          duration: 'August 2013 - March 2015 (2 years 1 month)',
+          description: {
+            situation:
+              'Development and maintenance of systems across various companies and sectors.',
+            task: 'Contribute to the development of web components and various functionalities.',
+            action:
+              'Used various technologies like C#, DotNet, HTML, JavaScript, JQuery, Flex, and ActionScript.',
+            result:
+              'Delivered features and components that improved client platforms.',
+          },
         },
       ],
       education: [
         {
           institution: 'FIAP',
-          degree:
-            'Pós-graduação Lato Sensu - Especialization, Software Architecture',
+          degree: 'Postgraduate - Specialization, Software Architecture',
           duration: '(2023 - 2024)',
+        },
+        {
+          institution: 'Universidade Positivo',
+          degree: 'Undergraduate, Systems Analysis and Development',
+          duration: '(2019 - 2022)',
+        },
+        {
+          institution: 'Apple Developer Academy',
+          degree: 'Technical, iOS Development (BEPiD)',
+          duration: '(2015 - 2016)',
         },
       ],
     },
@@ -147,7 +173,6 @@ function App() {
     <AppContext.Provider
       value={{ data, language, onChangeLanguage: handleLanguageChange }}
     >
-      <NavBar />
       <div className="container">
         <div className="header">
           <img src={Avatar} alt="Avatar" className="avatar" />
@@ -158,8 +183,18 @@ function App() {
         <div className="section">
           <h2>{display.contact}</h2>
           <p>Email: {resume.contact.email}</p>
-          <p>LinkedIn: {resume.contact.linkedin}</p>
-          <p>GitHub: {resume.contact.github}</p>
+          <p>
+            LinkedIn:{' '}
+            <a href={`https://${resume.contact.linkedin}`} target="blank">
+              {resume.contact.linkedin}
+            </a>
+          </p>
+          <p>
+            GitHub:{' '}
+            <a href={`https://${resume.contact.github}`} target="blank">
+              {resume.contact.github}
+            </a>
+          </p>
         </div>
         <div className="section">
           <h2>{display.summary}</h2>
@@ -172,7 +207,12 @@ function App() {
               <h3>{experience.company}</h3>
               <h4>{experience.role}</h4>
               <p>{experience.duration}</p>
-              <p>{experience.description}</p>
+              <ul>
+                <li>{experience.description.situation}</li>
+                <li>{experience.description.task}</li>
+                <li>{experience.description.action}</li>
+                <li>{experience.description.result}</li>
+              </ul>
             </div>
           ))}
         </div>

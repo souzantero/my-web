@@ -9,7 +9,7 @@ export function NavBar() {
     <nav className="navbar">
       <ul className="navbar-list">
         <li className="navbar-item">
-          <a href="#resume">{data.display.resume}</a>
+          {/* <a href="#resume">{data.display.resume}</a> */}
         </li>
       </ul>
       <div>
